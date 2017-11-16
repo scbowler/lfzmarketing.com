@@ -1,3 +1,4 @@
 import React from 'react';
+import Login from './login';
 
-export default props => <p>View  tracking data here</p>;
+export default props => <Login/>;
