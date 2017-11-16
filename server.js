@@ -14,6 +14,8 @@ const studentFileName = 'student_data';
 app.use(express.static(path.resolve(__dirname, 'client', 'dist')));
 
 app.get('/api/marketing-data/update-dev', (req, res) => {
+
+    res.send({msg: 'Not Authorized', auth: false});
     
     // const promises = emailList.map(getData);
 
@@ -21,45 +23,54 @@ app.get('/api/marketing-data/update-dev', (req, res) => {
     //     res.status(500).send({success: false, msg: 'Error Saving Dev Marketing Data'});
     // });
 
-    res.send({data: 'for testing switch to dev firebase'});
+    // res.send({data: 'for testing switch to dev firebase'});
 });
 
 app.get('/api/marketing-data/update', (req, res) => {
     
-    readStudentList(studentFileName).then(resp => {
+    res.send({msg: 'Not Authorized', auth: false});
 
-        const promises = resp.data.map(getData);
+    // readStudentList(studentFileName).then(resp => {
 
-        Promise.all(promises).then( data => sortAndSave(data, res) ).catch( err => {
-            res.status(500).send({success: false, msg: 'Error Saving Marketing Data'});
-        });
-    });
+    //     const promises = resp.data.map(getData);
+
+    //     Promise.all(promises).then( data => sortAndSave(data, res) ).catch( err => {
+    //         res.status(500).send({success: false, msg: 'Error Saving Marketing Data'});
+    //     });
+    // });
 });
 
 app.get('/api/marketing-data', (req, res) => {
-    readMarketingData().then( resp => {
-        res.send(resp);
-    }).catch( err => {
-        res.status(500).send(err);
-    });
+
+    res.send({msg: 'Not Authorized', auth: false});
+
+    // readMarketingData().then( resp => {
+    //     res.send(resp);
+    // }).catch( err => {
+    //     res.status(500).send(err);
+    // });
 });
 
 app.get('/api/student-list/update', (req, res) => {
 
-    csvToJson(studentFileName).then( resp => {
-        res.send(resp);
-    }).catch(err => {
-        res.status(500).send(err);
-    });
+    res.send({msg: 'Not Authorized', auth: false});
+
+    // csvToJson(studentFileName).then( resp => {
+    //     res.send(resp);
+    // }).catch(err => {
+    //     res.status(500).send(err);
+    // });
 });
 
 app.get('/api/student-list', (req, res) => {
 
-    readStudentList(studentFileName).then( resp => {
-        res.send(resp);
-    }).catch( err => {
-        res.status(500).send(err);
-    });
+    res.send({msg: 'Not Authorized', auth: false});
+
+    // readStudentList(studentFileName).then( resp => {
+    //     res.send(resp);
+    // }).catch( err => {
+    //     res.status(500).send(err);
+    // });
 });
 
 app.get('*', (req, res) => {
