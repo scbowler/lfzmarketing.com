@@ -1,6 +1,8 @@
-const app = require('express')();
+const express = require('express');
 const path = require('path');
 const PORT = process.env.PORT || 4000;
+
+const app = express();
 
 const { emailList } = require('./data/test_data');
 const { sortAndSave, parseCsv, readStudentList, readMarketingData } = require('./services/file_ops');
@@ -8,6 +10,8 @@ const { getData } = require('./services/firebase_ops');
 require('./services/firebase_init');
 
 const studentFileName = 'student_data';
+
+app.use(express.static(path.resolve(__dirname, 'client', 'dist')));
 
 app.get('/api/marketing-data/update-dev', (req, res) => {
     
@@ -58,7 +62,9 @@ app.get('/api/student-list', (req, res) => {
     });
 });
 
-
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.listen(PORT, () => {
     console.log('Server running on port:', PORT);
