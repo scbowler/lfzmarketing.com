@@ -5,6 +5,12 @@ export function getStudentList(){
     return dispatch => {
         axios.get('/api/student-list').then( resp => {
 
+            if(!resp.data.auth){
+                dispatch({
+                    type: 'NOT_AUTH'
+                });
+                return;
+            }
             dispatch({
                 type: types.GET_STUDENT_LIST,
                 payload: resp.data
@@ -18,6 +24,13 @@ export function getStudentList(){
 export function getMarketingData(){
     return dispatch => {
         axios.get('/api/marketing-data').then( resp => {
+
+            if(!resp.data.auth){
+                dispatch({
+                    type: 'NOT_AUTH'
+                });
+                return;
+            }
 
             dispatch({
                 type: types.GET_MARKETING_DATA,
