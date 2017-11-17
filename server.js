@@ -1,6 +1,8 @@
+const https = require('https');
 const express = require('express');
 const path = require('path');
-const PORT = process.env.PORT || 4000;
+const config = require('./config');
+const PORT = process.env.PORT || 80;
 
 const app = express();
 
@@ -73,6 +75,8 @@ app.get('/api/student-list', (req, res) => {
     // });
 });
 
+app.get('/health-check', (req, res) => res.sendStatus(200));
+
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
 })
@@ -80,3 +84,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server running on port:', PORT);
 });
+
+https.createServer(config.ssl, app).listen(443);
