@@ -2,7 +2,8 @@ const https = require('https');
 const express = require('express');
 const path = require('path');
 const config = require('./config');
-const PORT = process.env.PORT || 80;
+const ENV = process.env.ENV || 'dev';
+const PORT = process.env.PORT || ENV === 'production' ? 80 : 4000;
 
 const app = express();
 
@@ -12,6 +13,14 @@ const { getData } = require('./services/firebase_ops');
 require('./services/firebase_init');
 
 const studentFileName = 'student_data';
+
+if(ENV === 'production'){
+    app.use((req, res, next) => {
+        if(req.secure) return next();
+
+        res.redirect('https://' + req.headers.host + req.url);
+    });
+}
 
 app.use(express.static(path.resolve(__dirname, 'client', 'dist')));
 
@@ -85,4 +94,6 @@ app.listen(PORT, () => {
     console.log('Server running on port:', PORT);
 });
 
-https.createServer(config.ssl, app).listen(443);
+if(ENV === 'production'){
+    https.createServer(config.ssl, app).listen(443);
+}
