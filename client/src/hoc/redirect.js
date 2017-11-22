@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { clearAuthErrors } from '../actions';
 
 export default function(WrappedComponent, to = '/'){
     class Auth extends Component {
@@ -7,6 +8,8 @@ export default function(WrappedComponent, to = '/'){
             if(this.props.auth){
                 this.props.history.push(to);
             }
+
+            this.props.clearAuthErrors();
         }
 
         componentWillReceiveProps(nextProps){
@@ -28,5 +31,5 @@ export default function(WrappedComponent, to = '/'){
         }
     }
 
-    return connect(mapStateToProps)(Auth);
+    return connect(mapStateToProps, {clearAuthErrors})(Auth);
 }

@@ -80,6 +80,12 @@ export function signOut(){
     }
 }
 
+export function clearAuthErrors(){
+    return {
+        type: types.CLEAR_AUTH_ERRORS
+    }
+}
+
 function sendAuthError(dispatch, error){
     dispatch({
         type: types.AUTH_ERROR,

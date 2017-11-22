@@ -5,6 +5,7 @@ export default {
     SIGN_UP: 'sign_up',
     SIGN_OUT: 'sing_out',
     AUTH_ERROR: 'auth_error',
+    CLEAR_AUTH_ERRORS: 'clear_auth_errors',
     EXPIRED_TOKEN: 'expired_token',
     MARKETING_DATA_ERROR: 'marketing_data_error',
     STUDENT_DATA_ERROR: 'student_data_error'

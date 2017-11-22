@@ -8,11 +8,13 @@ export default function(state = DEFAULT_STATE, action){
         case types.SIGN_UP:
             return { auth: true, error: [], message: null, expired: null };
         case types.SIGN_OUT:
-            return {...state, auth: false, error: [], expired: null };
+            return { ...state, auth: false, error: [], expired: null };
         case types.AUTH_ERROR:
-            return {...state, auth: false, error: action.error };
+            return { ...state, auth: false, error: action.error };
         case types.EXPIRED_TOKEN:
             return { ...state, expired: true, message: action.payload };
+        case types.CLEAR_AUTH_ERRORS:
+            return { ...state, error: [] };
         default:
             return state;
     }
