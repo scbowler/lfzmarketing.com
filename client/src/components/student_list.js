@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getStudentList } from '../actions';
+import Spinner from './spinner';
 
 class StudentList extends Component {
     componentDidMount(){
@@ -22,9 +23,22 @@ class StudentList extends Component {
     }
 
     render(){
+        const { dataError, count } = this.props;
+
+        if(dataError){
+            return (
+                <div>
+                    <h3>Student List:</h3>
+                    <h4>{dataError}</h4>
+                </div>
+            );
+        }
+
+        if(!count) return <Spinner/>;
+
         return (
             <div>
-                <h5>Record Count: <b>{this.props.count}</b></h5>
+                <h5>Record Count: <b>{count}</b></h5>
                 <table className="striped">
                     <thead>
                         <tr>
@@ -46,7 +60,8 @@ class StudentList extends Component {
 function mapStateToProps(state){
     return {
         list: state.students.all,
-        count: state.students.count
+        count: state.students.count,
+        dataError: state.students.error
     }
 }
 

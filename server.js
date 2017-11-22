@@ -10,6 +10,8 @@ const PORT = process.env.PORT || ENV === 'production' ? 80 : 4000;
 
 const app = express();
 
+mongoose.Promise = global.Promise;
+
 mongoose.connect('mongodb://localhost/lfzmarketing', {
     useMongoClient: true
 });

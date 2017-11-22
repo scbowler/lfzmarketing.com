@@ -10,8 +10,10 @@ const { getData } = require('./services/firebase_ops');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignIn = passport.authenticate('local', { session: false });
 
+const studentFileName = 'student_data';
+
 module.exports = function(app){
-    app.get('/api/marketing-data/update-dev', requireAuth, (req, res) => {
+    app.get('/api/marketing-data/update-dev', requireAuth, Authentication.verifyToken, (req, res) => {
         
         res.send({msg: 'Not Authorized', auth: false});
         
@@ -24,7 +26,7 @@ module.exports = function(app){
         // res.send({data: 'for testing switch to dev firebase'});
     });
     
-    app.get('/api/marketing-data/update', requireAuth, (req, res) => {
+    app.get('/api/marketing-data/update', requireAuth, Authentication.verifyToken, (req, res) => {
         
         res.send({msg: 'Not Authorized', auth: false});
     
@@ -38,18 +40,16 @@ module.exports = function(app){
         // });
     });
     
-    app.get('/api/marketing-data', requireAuth, (req, res) => {
+    app.get('/api/marketing-data', requireAuth, Authentication.verifyToken, (req, res) => {
     
-        res.send({msg: 'Not Authorized', auth: false});
-    
-        // readMarketingData().then( resp => {
-        //     res.send(resp);
-        // }).catch( err => {
-        //     res.status(500).send(err);
-        // });
+        readMarketingData().then( resp => {
+            res.send(resp);
+        }).catch( err => {
+            res.status(500).send(err);
+        });
     });
     
-    app.get('/api/student-list/update', requireAuth, (req, res) => {
+    app.get('/api/student-list/update', requireAuth, Authentication.verifyToken, (req, res) => {
     
         res.send({msg: 'Not Authorized', auth: false});
     
@@ -60,19 +60,17 @@ module.exports = function(app){
         // });
     });
     
-    app.get('/api/student-list', requireAuth, (req, res) => {
+    app.get('/api/student-list', requireAuth, Authentication.verifyToken, (req, res) => {
     
-        res.send({msg: 'Not Authorized', auth: false});
-    
-        // readStudentList(studentFileName).then( resp => {
-        //     res.send(resp);
-        // }).catch( err => {
-        //     res.status(500).send(err);
-        // });
+        readStudentList(studentFileName).then( resp => {
+            res.send(resp);
+        }).catch( err => {
+            res.status(500).send(err);
+        });
     });
 
-    app.post('/sign-up', Authentication.signUp);
-    app.post('/sign-in', requireSignIn, Authentication.signIn);
+    app.post('/auth/sign-up', Authentication.signUp);
+    app.post('/auth/sign-in', requireSignIn, Authentication.signIn);
     
     app.get('/health-check', (req, res) => res.sendStatus(200));
     

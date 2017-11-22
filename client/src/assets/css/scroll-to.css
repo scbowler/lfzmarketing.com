@@ -1,0 +1,8 @@
+.scroll-link {
+    color: #039be5;
+}
+
+.scroll-link:hover {
+    cursor: pointer;
+    color: #008aca
+}

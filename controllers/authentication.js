@@ -1,6 +1,6 @@
 const jwt = require('jwt-simple');
 const User = require('../models/user');
-const { secret } = require('../config');
+const { secret, emailWhiteList } = require('../config');
 
 function tokenForUser(user){
     const timestamp = new Date().getTime();
@@ -8,9 +8,9 @@ function tokenForUser(user){
 }
 
 exports.signUp = (req, res, next) => {
-    const emailRegex = /^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const password = req.body.password;
 
     const errorArr = [];
@@ -29,6 +29,10 @@ exports.signUp = (req, res, next) => {
 
     if(!passwordRegex.test(password)){
         errorArr.push('Invalid password. Must contain lowercase letter, uppercase letter, number, symbol, and be at least 8 characters long.');
+    }
+
+    if(emailWhiteList.indexOf(email) < 0){
+        errorArr.push('Email is not white listed');
     }
 
     if(errorArr.length){
@@ -54,5 +58,10 @@ exports.signUp = (req, res, next) => {
 }
 
 exports.signIn = function(req, res, next){
-    res.send({ token: tokenForUser(res.user) });
+    res.send({ token: tokenForUser(req.user) });
+}
+
+exports.verifyToken = function(req, res, next){
+    if(req.user.expired) return res.send(req.user);
+    next();
 }

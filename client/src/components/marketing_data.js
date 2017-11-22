@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getMarketingData } from '../actions';
+import Spinner from './spinner';
+import ScrollTo from './scroll-to';
 
 class MarketingData extends Component {
     componentDidMount(){
@@ -99,14 +102,28 @@ class MarketingData extends Component {
     }
 
     render(){
-        const { found, notFound } = this.props;
+        const { found, notFound, dataError, match: { url } } = this.props;
+
+        if(dataError){
+            return (
+                <div>
+                    <h3>Marketing Data:</h3>
+                    <h4>{dataError}</h4>
+                </div>
+            );
+        }
+
+        if(!found && !notFound){
+            return <Spinner/>;
+        }
+
         const total = found + notFound;
         return (
-            <div id="top">
+            <div>
                 <p><b>{Math.round((found/total) * 100)}%</b> of records found</p>
-                <p><b>{found}</b> out of <b>{total}</b> <a href="#not-found">View Not Found List</a></p>
+                <p><b>{found}</b> out of <b>{total}</b> <ScrollTo to="not-found" current={url}>View Not Found List</ScrollTo></p>
                 { this.renderData() }
-                <a href="#top">Return to Top</a>
+                <ScrollTo to="top" current={url}>Return to Top</ScrollTo>
                 <h4 id="not-found">List of emails not found in database</h4>
                 <table className="striped">
                     <thead>
@@ -121,7 +138,7 @@ class MarketingData extends Component {
                         {this.renderNotFoundList()}
                     </tbody>
                 </table>
-                <a href="#top">Return to Top</a>
+                <ScrollTo to="top" current={url}>Return to Top</ScrollTo>
             </div>
         )
     }
@@ -132,7 +149,8 @@ function mapStateToProps(state){
         data: state.marketing.all,
         badData: state.marketing.badData,
         found: state.marketing.found,
-        notFound: state.marketing.notFound
+        notFound: state.marketing.notFound,
+        dataError: state.marketing.error
     }
 }
 
