@@ -1,0 +1,122 @@
+h3 {
+    position: relative;
+    top: 312px;
+    text-align: center;
+}
+
+.center {
+    position: fixed;
+    top: 340px;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+}
+
+.spinner-container {
+    height: 250px;
+    width: 250px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.dot {
+    display: inline-block;
+    height: 15%;
+    width: 15%;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#d01 {
+    top: 42.5%;
+    left: 0;
+    animation: fade 1200ms linear infinite;
+}
+
+#d02 {
+    top: 22%;
+    left: 5%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 100ms;
+}
+
+#d03 {
+    top: 6%;
+    left: 20%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 200ms;
+}
+
+#d04 {
+    left: 41.5%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 300ms;
+}
+
+#d05 {
+    top: 6%;
+    right: 20%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 400ms;
+}
+
+#d06 {
+    top: 22%;
+    right: 5%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 500ms;
+}
+
+#d07 {
+    top: 42.5%;
+    right: 0;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 600ms;
+}
+
+#d08 {
+    bottom: 22%;
+    right: 6%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 700ms;
+}
+
+#d09 {
+    bottom: 7%;
+    right: 22%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 800ms;
+}
+
+#d10 {
+    bottom: 2%;
+    left: 41.5%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 900ms;
+}
+
+#d11 {
+    bottom: 7%;
+    left: 22%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 1000ms;
+}
+
+#d12 {
+    bottom: 22%;
+    left: 6%;
+    animation: fade 1200ms linear infinite;
+    animation-delay: 1100ms;
+}
+
+@keyframes spin {
+    0%   {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
+}
+
+@keyframes fade {
+    0% {background-color: rgba(255, 255, 255, 0)}
+    85% {background-color: rgba(176, 190, 197, 1)}
+    86% {background-color: rgba(255, 255, 255, 0)}
+    100% {background-color: rgba(255, 255, 255, 0)}
+}
